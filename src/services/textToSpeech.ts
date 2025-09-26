@@ -17,9 +17,9 @@ export class TextToSpeechService {
       const utterance = new SpeechSynthesisUtterance(cleanText);
       this.currentUtterance = utterance;
 
-      // Configure voice based on accent preference
+      // Configure voice based on accent preference and text language
       const voices = this.synthesis.getVoices();
-      const voice = this.selectVoice(voices, accent);
+      const voice = this.selectVoiceForText(voices, accent, cleanText);
       
       if (voice) {
         utterance.voice = voice;
@@ -54,19 +54,60 @@ export class TextToSpeechService {
     return this.synthesis.speaking;
   }
 
-  private selectVoice(voices: SpeechSynthesisVoice[], accent: string): SpeechSynthesisVoice | null {
-    // Voice selection logic based on accent preference
+  private selectVoiceForText(voices: SpeechSynthesisVoice[], accent: string, text: string): SpeechSynthesisVoice | null {
+    // Check if text contains Hindi characters
+    const hasHindiText = /[\u0900-\u097F]/.test(text);
+    
+    // Voice selection logic based on accent preference and text language
     const voiceMap = {
-      indian: ['hi-IN', 'en-IN'],
+      indian: ['hi-IN', 'en-IN', 'hi'],
       american: ['en-US'],
       british: ['en-GB', 'en-UK']
     };
 
     const preferredLangs = voiceMap[accent as keyof typeof voiceMap] || ['en-US'];
     
+    // If text contains Hindi and accent is Indian, prioritize Hindi voices
+    if (hasHindiText && accent === 'indian') {
+      // First try Hindi voices
+      const hindiVoice = voices.find(v => 
+        v.lang.includes('hi') || 
+        v.lang.includes('Hindi') || 
+        v.lang.startsWith('hi-IN')
+      );
+      if (hindiVoice) return hindiVoice;
+    }
+    
+    // Try to find a voice matching the preferred language
     for (const lang of preferredLangs) {
       const voice = voices.find(v => v.lang.startsWith(lang));
       if (voice) return voice;
+    }
+
+    // Fallback to any English voice
+    return voices.find(v => v.lang.startsWith('en')) || null;
+  }
+
+  private selectVoice(voices: SpeechSynthesisVoice[], accent: string): SpeechSynthesisVoice | null {
+    // Voice selection logic based on accent preference
+    const voiceMap = {
+      indian: ['hi-IN', 'en-IN', 'hi'],
+      american: ['en-US'],
+      british: ['en-GB', 'en-UK']
+    };
+
+    const preferredLangs = voiceMap[accent as keyof typeof voiceMap] || ['en-US'];
+    
+    // First try to find a voice matching the preferred language
+    for (const lang of preferredLangs) {
+      const voice = voices.find(v => v.lang.startsWith(lang));
+      if (voice) return voice;
+    }
+
+    // For Indian accent, also try Hindi voices
+    if (accent === 'indian') {
+      const hindiVoice = voices.find(v => v.lang.includes('hi') || v.lang.includes('Hindi'));
+      if (hindiVoice) return hindiVoice;
     }
 
     // Fallback to any English voice
@@ -93,8 +134,8 @@ export class TextToSpeechService {
       .replace(/[∑∏∐∆∇∞∝∟∠∡∢∣∤∦∨∧∩∪∫∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿]/g, '')
       // Remove currency and other symbols
       .replace(/[¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ]/g, '')
-      // Keep only letters, numbers, basic punctuation, and spaces
-      .replace(/[^a-zA-Z0-9\s.,!?;:'"()-]/g, '')
+      // Keep letters (English and Hindi), numbers, basic punctuation, and spaces
+      .replace(/[^a-zA-Z\u0900-\u097F0-9\s.,!?;:'"()-]/g, '')
       // Clean up multiple spaces
       .replace(/\s+/g, ' ')
       // Trim whitespace
