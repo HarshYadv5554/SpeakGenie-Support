@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Speech Filtering Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .original { background: #f8f9fa; padding: 10px; margin: 10px 0; }
+        .cleaned { background: #e8f5e8; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Text-to-Speech Filtering Test</h1>
+    
+    <div class="test-section">
+        <h3>Test 1: Emojis and Symbols</h3>
+        <div class="original">
+            <strong>Original:</strong> Hello! 👋 How are you? 🎉 I'm doing great! 📊 The data shows 100% success! ✅
+        </div>
+        <div class="cleaned" id="cleaned1"></div>
+        <button onclick="testFiltering('Hello! 👋 How are you? 🎉 I\'m doing great! 📊 The data shows 100% success! ✅', 'cleaned1')">Test Filtering</button>
+        <button onclick="speakText('Hello! 👋 How are you? 🎉 I\'m doing great! 📊 The data shows 100% success! ✅')">Speak Original</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 2: Technical Symbols</h3>
+        <div class="original">
+            <strong>Original:</strong> The formula is: ∑(x²) = ∞ and the angle ∠ABC = 90° → Result: ✅
+        </div>
+        <div class="cleaned" id="cleaned2"></div>
+        <button onclick="testFiltering('The formula is: ∑(x²) = ∞ and the angle ∠ABC = 90° → Result: ✅', 'cleaned2')">Test Filtering</button>
+        <button onclick="speakText('The formula is: ∑(x²) = ∞ and the angle ∠ABC = 90° → Result: ✅')">Speak Original</button>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 3: Mixed Content</h3>
+        <div class="original">
+            <strong>Original:</strong> Welcome to SpeakGenie! 🚀 Get started with our AI-powered learning platform 📚. Features include: 🎯 Voice recognition, 🎧 Audio playback, and 📊 Progress tracking.
+        </div>
+        <div class="cleaned" id="cleaned3"></div>
+        <button onclick="testFiltering('Welcome to SpeakGenie! 🚀 Get started with our AI-powered learning platform 📚. Features include: 🎯 Voice recognition, 🎧 Audio playback, and 📊 Progress tracking.', 'cleaned3')">Test Filtering</button>
+        <button onclick="speakText('Welcome to SpeakGenie! 🚀 Get started with our AI-powered learning platform 📚. Features include: 🎯 Voice recognition, 🎧 Audio playback, and 📊 Progress tracking.')">Speak Original</button>
+    </div>
+
+    <script>
+        // Copy the cleanTextForSpeech function from the TypeScript service
+        function cleanTextForSpeech(text) {
+            return text
+                // Remove all emojis and emoticons
+                .replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA70}-\u{1FAFF}]/gu, '')
+                // Remove common symbols and special characters
+                .replace(/[🗣👥🤖🎧🎮📖📊✅❌📧💡🔍📝🎯🚀💻📱🌐🔒🛡️⚡🎨🎭🎪🎨🎬🎵🎶🎸🎹🎺🎻🥁🎤🎧🎮🕹️🎲🎯🎳🎰🎱🎮🎯🎲🎳🎰🎱]/g, '')
+                // Remove other common symbols that shouldn't be spoken
+                .replace(/[•·▪▫‣⁃⁌⁍⁎⁏⁐⁑⁒⁓⁔⁕⁖⁗⁘⁙⁚⁛⁜⁝⁞]/g, '')
+                // Remove arrows and directional symbols
+                .replace(/[←→↑↓↔↕↖↗↘↙↚↛↜↝↞↟↠↡↢↣↤↥↦↧↨↩↪↫↬↭↮↯↰↱↲↳↴↵↶↷↸↹↺↻↼↽↾↿⇀⇁⇂⇃⇄⇅⇆⇇⇈⇉⇊⇋⇌⇍⇎⇏⇐⇑⇒⇓⇔⇕⇖⇗⇘⇙⇚⇛⇜⇝⇞⇟⇠⇡⇢⇣⇤⇥⇦⇧⇨⇩⇪⇫⇬⇭⇮⇯⇰⇱⇲⇳⇴⇵⇶⇷⇸⇹⇺⇻⇼⇽⇾⇿]/g, '')
+                // Remove mathematical and technical symbols
+                .replace(/[∑∏∐∆∇∞∝∟∠∡∢∣∤∦∨∧∩∪∫∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿]/g, '')
+                // Remove currency and other symbols
+                .replace(/[¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ]/g, '')
+                // Keep only letters, numbers, basic punctuation, and spaces
+                .replace(/[^a-zA-Z0-9\s.,!?;:'"()-]/g, '')
+                // Clean up multiple spaces
+                .replace(/\s+/g, ' ')
+                // Trim whitespace
+                .trim();
+        }
+
+        function testFiltering(originalText, elementId) {
+            const cleaned = cleanTextForSpeech(originalText);
+            document.getElementById(elementId).innerHTML = '<strong>Cleaned:</strong> ' + cleaned;
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Speech synthesis not supported in this browser');
+            }
+        }
+    </script>
+</body>
+</html>
