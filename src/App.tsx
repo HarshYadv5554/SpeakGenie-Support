@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { UserTypeSelector } from './components/UserTypeSelector';
+import { LanguageSelector } from './components/LanguageSelector';
 import { ChatWindow } from './components/ChatWindow';
 import { FeatureCard } from './components/FeatureCard';
 import { UserProfile } from './types';
@@ -22,7 +23,8 @@ function App() {
     type: 'parent',
     preferences: {
       voiceEnabled: true,
-      accent: 'indian'
+      accent: 'indian',
+      language: 'english'
     }
   });
 
@@ -35,6 +37,16 @@ function App() {
       preferences: {
         ...prev.preferences,
         accent: type === 'kid' ? 'indian' : prev.preferences.accent
+      }
+    }));
+  };
+
+  const handleLanguageChange = (language: 'english' | 'hindi' | 'hinglish') => {
+    setUserProfile(prev => ({
+      ...prev,
+      preferences: {
+        ...prev.preferences,
+        language
       }
     }));
   };
@@ -102,6 +114,12 @@ function App() {
           onTypeChange={handleUserTypeChange}
         />
 
+        {/* Language Selection */}
+        <LanguageSelector
+          selectedLanguage={userProfile.preferences.language}
+          onLanguageChange={handleLanguageChange}
+        />
+
         {/* Features Grid */}
         <div className="mb-8 sm:mb-10 lg:mb-12">
           <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-6 sm:mb-8 px-4">
@@ -157,6 +175,7 @@ function App() {
         userProfile={userProfile}
         isOpen={isChatOpen}
         onToggle={() => setIsChatOpen(!isChatOpen)}
+        onLanguageChange={handleLanguageChange}
       />
     </div>
   );

@@ -25,6 +25,7 @@ export interface UserProfile {
   preferences: {
     voiceEnabled: boolean;
     accent: 'indian' | 'american' | 'british';
+    language: 'english' | 'hindi' | 'hinglish';
   };
 }
 

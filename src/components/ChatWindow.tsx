@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { TypingIndicator } from './TypingIndicator';
+import { LanguageSelector } from './LanguageSelector';
 import { useChat } from '../hooks/useChat';
 import { UserProfile } from '../types';
 import { MessageCircle, X } from 'lucide-react';
@@ -10,12 +11,14 @@ interface ChatWindowProps {
   userProfile: UserProfile;
   isOpen: boolean;
   onToggle: () => void;
+  onLanguageChange?: (language: 'english' | 'hindi' | 'hinglish') => void;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
   userProfile,
   isOpen,
-  onToggle
+  onToggle,
+  onLanguageChange
 }) => {
   const { messages, isLoading, isTyping, sendMessage, escalateToHuman, ttsService } = useChat(userProfile);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -32,7 +35,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   const handlePlayAudio = async (text: string, messageId: string) => {
     try {
       setPlayingMessageId(messageId);
-      await ttsService.speak(text, userProfile.preferences.accent);
+      await ttsService.speak(text, userProfile.preferences.accent, userProfile.preferences.language);
     } catch (error) {
       console.error('Text-to-speech error:', error);
     } finally {
@@ -78,6 +81,16 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </div>
+
+      {/* Language Selector */}
+      {onLanguageChange && (
+        <div className="p-3 sm:p-4 border-b bg-gray-50">
+          <LanguageSelector
+            selectedLanguage={userProfile.preferences.language}
+            onLanguageChange={onLanguageChange}
+          />
+        </div>
+      )}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">

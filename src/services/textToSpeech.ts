@@ -6,7 +6,7 @@ export class TextToSpeechService {
     this.synthesis = window.speechSynthesis;
   }
 
-  async speak(text: string, accent: 'indian' | 'american' | 'british' = 'indian'): Promise<void> {
+  async speak(text: string, accent: 'indian' | 'american' | 'british' = 'indian', language: 'english' | 'hindi' | 'hinglish' = 'english'): Promise<void> {
     return new Promise((resolve, reject) => {
       // Stop any current speech
       this.stop();
@@ -19,7 +19,7 @@ export class TextToSpeechService {
 
       // Configure voice based on accent preference and text language
       const voices = this.synthesis.getVoices();
-      const voice = this.selectVoiceForText(voices, accent, cleanText);
+      const voice = this.selectVoiceForText(voices, accent, cleanText, language);
       
       if (voice) {
         utterance.voice = voice;
@@ -54,7 +54,7 @@ export class TextToSpeechService {
     return this.synthesis.speaking;
   }
 
-  private selectVoiceForText(voices: SpeechSynthesisVoice[], accent: string, text: string): SpeechSynthesisVoice | null {
+  private selectVoiceForText(voices: SpeechSynthesisVoice[], accent: string, text: string, language: string): SpeechSynthesisVoice | null {
     // Check if text contains Hindi characters
     const hasHindiText = /[\u0900-\u097F]/.test(text);
     
@@ -67,8 +67,8 @@ export class TextToSpeechService {
 
     const preferredLangs = voiceMap[accent as keyof typeof voiceMap] || ['en-US'];
     
-    // If text contains Hindi and accent is Indian, prioritize Hindi voices
-    if (hasHindiText && accent === 'indian') {
+    // If language is Hindi or Hinglish, or text contains Hindi characters, prioritize Hindi voices
+    if ((language === 'hindi' || language === 'hinglish' || hasHindiText) && accent === 'indian') {
       // First try Hindi voices
       const hindiVoice = voices.find(v => 
         v.lang.includes('hi') || 

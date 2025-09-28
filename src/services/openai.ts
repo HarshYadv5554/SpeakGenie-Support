@@ -53,6 +53,7 @@ export class OpenAIService {
       : '';
 
     const toneInstructions = this.getToneInstructions(userProfile.type);
+    const languageInstructions = this.getLanguageInstructions(userProfile.preferences.language);
 
     return `You are a helpful AI customer support agent for SpeakGenie, an English learning app for kids aged 6-16.
 
@@ -62,6 +63,7 @@ IMPORTANT GUIDELINES:
 3. Keep responses concise but helpful
 4. Use emojis appropriately to make responses engaging
 5. ${toneInstructions}
+6. ${languageInstructions}
 
 SpeakGenie Key Info:
 - English learning app for kids aged 6-16 (Grades 1-12)
@@ -83,6 +85,18 @@ If the user's question cannot be answered with the available information, polite
         return 'Use simple, friendly language with fun emojis. Make explanations easy to understand and engaging for children.';
       default:
         return 'Use a friendly, helpful tone appropriate for the context.';
+    }
+  }
+
+  private getLanguageInstructions(language: string): string {
+    switch (language) {
+      case 'hindi':
+        return 'Respond in Hindi (हिंदी). Use Devanagari script for Hindi text. Keep responses natural and conversational in Hindi.';
+      case 'hinglish':
+        return 'Respond in Hinglish (mix of Hindi and English). Use both Hindi and English words naturally. Example: "Aap ka question bahut good hai!"';
+      case 'english':
+      default:
+        return 'Respond in English. Use clear, professional English language.';
     }
   }
 }

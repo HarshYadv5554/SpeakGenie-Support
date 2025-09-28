@@ -51,7 +51,7 @@ export const useChat = (userProfile: UserProfile) => {
       // Auto-play voice response if user prefers voice
       if (userProfile.preferences.voiceEnabled) {
         try {
-          await ttsService.speak(response, userProfile.preferences.accent);
+          await ttsService.speak(response, userProfile.preferences.accent, userProfile.preferences.language);
         } catch (error) {
           console.warn('Text-to-speech failed:', error);
         }
