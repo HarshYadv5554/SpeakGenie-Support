@@ -11,7 +11,7 @@ interface ChatWindowProps {
   userProfile: UserProfile;
   isOpen: boolean;
   onToggle: () => void;
-  onLanguageChange?: (language: 'english' | 'hindi' | 'hinglish') => void;
+  onLanguageChange?: (language: string) => void;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({

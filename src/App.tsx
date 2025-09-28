@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Header } from './components/Header';
 import { UserTypeSelector } from './components/UserTypeSelector';
-import { LanguageSelector } from './components/LanguageSelector';
 import { ChatWindow } from './components/ChatWindow';
 import { FeatureCard } from './components/FeatureCard';
 import { UserProfile } from './types';
@@ -30,7 +29,7 @@ function App() {
 
   const [isChatOpen, setIsChatOpen] = useState(false);
 
-  const handleUserTypeChange = (type: 'parent' | 'kid' | 'teacher') => {
+  const handleUserTypeChange = (type: 'parent' | 'kid') => {
     setUserProfile(prev => ({
       ...prev,
       type,
@@ -41,7 +40,7 @@ function App() {
     }));
   };
 
-  const handleLanguageChange = (language: 'english' | 'hindi' | 'hinglish') => {
+  const handleLanguageChange = (language: string) => {
     setUserProfile(prev => ({
       ...prev,
       preferences: {
@@ -114,11 +113,6 @@ function App() {
           onTypeChange={handleUserTypeChange}
         />
 
-        {/* Language Selection */}
-        <LanguageSelector
-          selectedLanguage={userProfile.preferences.language}
-          onLanguageChange={handleLanguageChange}
-        />
 
         {/* Features Grid */}
         <div className="mb-8 sm:mb-10 lg:mb-12">

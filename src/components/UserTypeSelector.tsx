@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, GraduationCap, Users } from 'lucide-react';
+import { User, GraduationCap } from 'lucide-react';
 
 interface UserTypeSelectorProps {
   selectedType: 'parent' | 'kid';

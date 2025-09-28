@@ -92,6 +92,32 @@ If the user's question cannot be answered with the available information, polite
     switch (language) {
       case 'hindi':
         return 'Respond in Hindi (हिंदी). Use Devanagari script for Hindi text. Keep responses natural and conversational in Hindi.';
+      case 'bengali':
+        return 'Respond in Bengali (বাংলা). Use Bengali script for Bengali text. Keep responses natural and conversational in Bengali.';
+      case 'telugu':
+        return 'Respond in Telugu (తెలుగు). Use Telugu script for Telugu text. Keep responses natural and conversational in Telugu.';
+      case 'marathi':
+        return 'Respond in Marathi (मराठी). Use Devanagari script for Marathi text. Keep responses natural and conversational in Marathi.';
+      case 'tamil':
+        return 'Respond in Tamil (தமிழ்). Use Tamil script for Tamil text. Keep responses natural and conversational in Tamil.';
+      case 'gujarati':
+        return 'Respond in Gujarati (ગુજરાતી). Use Gujarati script for Gujarati text. Keep responses natural and conversational in Gujarati.';
+      case 'urdu':
+        return 'Respond in Urdu (اردو). Use Arabic script for Urdu text. Keep responses natural and conversational in Urdu.';
+      case 'kannada':
+        return 'Respond in Kannada (ಕನ್ನಡ). Use Kannada script for Kannada text. Keep responses natural and conversational in Kannada.';
+      case 'malayalam':
+        return 'Respond in Malayalam (മലയാളം). Use Malayalam script for Malayalam text. Keep responses natural and conversational in Malayalam.';
+      case 'punjabi':
+        return 'Respond in Punjabi (ਪੰਜਾਬੀ). Use Gurmukhi script for Punjabi text. Keep responses natural and conversational in Punjabi.';
+      case 'odia':
+        return 'Respond in Odia (ଓଡ଼ିଆ). Use Odia script for Odia text. Keep responses natural and conversational in Odia.';
+      case 'assamese':
+        return 'Respond in Assamese (অসমীয়া). Use Assamese script for Assamese text. Keep responses natural and conversational in Assamese.';
+      case 'bhojpuri':
+        return 'Respond in Bhojpuri (भोजपुरी). Use Devanagari script for Bhojpuri text. Keep responses natural and conversational in Bhojpuri.';
+      case 'rajasthani':
+        return 'Respond in Rajasthani (राजस्थानी). Use Devanagari script for Rajasthani text. Keep responses natural and conversational in Rajasthani.';
       case 'hinglish':
         return 'Respond in Hinglish (mix of Hindi and English). Use both Hindi and English words naturally. Example: "Aap ka question bahut good hai!"';
       case 'english':

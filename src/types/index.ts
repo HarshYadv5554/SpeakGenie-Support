@@ -20,12 +20,12 @@ export interface ChatSession {
 export interface UserProfile {
   id: string;
   name: string;
-  type: 'parent' | 'kid' | 'teacher';
+  type: 'parent' | 'kid';
   age?: number;
   preferences: {
     voiceEnabled: boolean;
     accent: 'indian' | 'american' | 'british';
-    language: 'english' | 'hindi' | 'hinglish';
+    language: string;
   };
 }
 
