@@ -34,7 +34,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-4">
       <div className="flex items-center gap-2 mb-3">
-        <Globe className="w-4 h-4 text-indigo-600" />
+        <Globe className="w-4 h-4" style={{color: '#19C472'}} />
         <span className="text-sm font-medium text-gray-700">Chat Language</span>
       </div>
       
@@ -42,7 +42,8 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         <select
           value={selectedLanguage}
           onChange={(e) => onLanguageChange(e.target.value)}
-          className="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white appearance-none cursor-pointer"
+          className="w-full p-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent bg-white appearance-none cursor-pointer"
+          style={{'--tw-ring-color': '#19C472'} as React.CSSProperties}
         >
           {languages.map(({ code, name, flag }) => (
             <option key={code} value={code}>

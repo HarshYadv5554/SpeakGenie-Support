@@ -48,11 +48,11 @@ export const VoiceControls: React.FC<VoiceControlsProps> = ({
     <div className="flex items-center gap-1 sm:gap-2">
       <button
         onClick={onToggleVoice}
-        className={`p-1.5 sm:p-2 rounded-full transition-colors ${
-          voiceEnabled
-            ? 'bg-emerald-100 text-emerald-600 hover:bg-emerald-200'
-            : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-        }`}
+        className="p-1.5 sm:p-2 rounded-full transition-colors hover:bg-opacity-80"
+        style={{
+          backgroundColor: '#f4f4f4',
+          color: '#444'
+        }}
         title={voiceEnabled ? 'Voice responses enabled' : 'Voice responses disabled'}
       >
         {voiceEnabled ? <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" /> : <VolumeX className="w-3 h-3 sm:w-4 sm:h-4" />}
@@ -63,9 +63,13 @@ export const VoiceControls: React.FC<VoiceControlsProps> = ({
         disabled={!speechService.isSupported()}
         className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 ${
           isRecording
-            ? 'bg-red-500 text-white animate-pulse'
-            : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200 hover:scale-105'
+            ? 'animate-pulse'
+            : 'hover:scale-105'
         } disabled:opacity-50 disabled:cursor-not-allowed`}
+        style={{
+          backgroundColor: isRecording ? '#ff4444' : '#f4f4f4',
+          color: isRecording ? 'white' : '#444'
+        }}
         title={isRecording ? 'Stop recording' : 'Start voice input'}
       >
         {isRecording ? <MicOff className="w-3 h-3 sm:w-4 sm:h-4" /> : <Mic className="w-3 h-3 sm:w-4 sm:h-4" />}

@@ -26,7 +26,7 @@ export const UserTypeSelector: React.FC<UserTypeSelectorProps> = ({
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+    <div className="bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-100">
       <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
         I am a...
       </h3>
@@ -37,9 +37,10 @@ export const UserTypeSelector: React.FC<UserTypeSelectorProps> = ({
             onClick={() => onTypeChange(type)}
             className={`p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
               selectedType === type
-                ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                : 'border-gray-200 bg-white text-gray-600 hover:border-indigo-300'
+                ? 'text-white'
+                : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
             }`}
+            style={selectedType === type ? {backgroundColor: '#19C472', borderColor: '#19C472'} : {}}
           >
             <Icon className="w-8 h-8 mx-auto mb-2" />
             <div className="font-medium">{label}</div>

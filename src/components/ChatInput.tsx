@@ -64,7 +64,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           <button
             type="button"
             onClick={onEscalate}
-            className="p-1.5 sm:p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg transition-colors hover:bg-opacity-80"
+            style={{
+              backgroundColor: '#f4f4f4',
+              color: '#444'
+            }}
             title="Escalate to human support"
           >
             <LifeBuoy className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -73,7 +77,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           <button
             type="submit"
             disabled={!message.trim() || disabled}
-            className="p-1.5 sm:p-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 sm:p-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            style={{backgroundColor: '#19C472'}}
           >
             <Send className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>

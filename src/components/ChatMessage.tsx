@@ -20,8 +20,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   return (
     <div className={`flex items-start gap-2 sm:gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
       <div className={`flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
-        isUser ? 'bg-indigo-500' : 'bg-emerald-500'
-      }`}>
+        isUser ? 'bg-gray-500' : ''
+      }`} style={!isUser ? {backgroundColor: '#19C472'} : {}}>
         {isUser ? (
           <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
         ) : (
@@ -32,9 +32,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       <div className={`max-w-[85%] sm:max-w-[80%] ${isUser ? 'text-right' : ''}`}>
         <div className={`inline-block px-3 sm:px-4 py-2 rounded-2xl ${
           isUser
-            ? 'bg-indigo-500 text-white rounded-br-md'
+            ? 'text-white rounded-br-md'
             : 'bg-gray-100 text-gray-800 rounded-bl-md'
-        }`}>
+        }`} style={isUser ? {backgroundColor: '#19C472'} : {}}>
           <div className="whitespace-pre-wrap text-sm sm:text-base">{message.content}</div>
           
           {!isUser && onPlayAudio && (

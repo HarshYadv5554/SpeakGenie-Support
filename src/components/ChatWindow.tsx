@@ -52,7 +52,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     return (
       <button
         onClick={onToggle}
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 bg-indigo-500 text-white rounded-full shadow-lg hover:bg-indigo-600 transition-all duration-200 hover:scale-110 z-50"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 text-white rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-50"
+        style={{backgroundColor: '#19C472'}}
       >
         <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
       </button>
@@ -62,7 +63,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   return (
     <div className="fixed inset-0 sm:bottom-6 sm:right-6 sm:inset-auto w-full sm:w-96 h-full sm:h-[600px] bg-white rounded-none sm:rounded-xl shadow-2xl border border-gray-200 flex flex-col z-50">
       {/* Header */}
-      <div className="flex items-center justify-between p-3 sm:p-4 border-b bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-none sm:rounded-t-xl">
+      <div className="flex items-center justify-between p-3 sm:p-4 border-b text-white rounded-none sm:rounded-t-xl" style={{backgroundColor: '#19C472'}}>
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white/20 rounded-full flex items-center justify-center">
             <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />

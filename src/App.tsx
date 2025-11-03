@@ -61,7 +61,7 @@ function App() {
       icon: Mic,
       title: 'Voice Interaction',
       description: 'Talk naturally with voice input and hear responses in your preferred accent - Indian, American, or British.',
-      color: 'bg-green-500'
+      color: 'bg-[#19C472]'
     },
     {
       icon: Brain,
@@ -90,16 +90,16 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-white">
       <Header />
       
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Welcome Section */}
         <div className="text-center mb-8 sm:mb-10 lg:mb-12">
           <div className="flex items-center justify-center gap-1 sm:gap-2 mb-3 sm:mb-4">
-            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-indigo-600" />
+            <Sparkles className="w-6 h-6 sm:w-8 sm:h-8" style={{color: '#19C472'}} />
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 px-2">Welcome to SpeakGenie Support</h2>
-            <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-pink-500" />
+            <Heart className="w-6 h-6 sm:w-8 sm:h-8" style={{color: '#19C472'}} />
           </div>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
             Get instant help with our AI-powered support system. Whether you're a parent or student, 
@@ -133,14 +133,15 @@ function App() {
         </div>
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 text-center text-white mb-6 sm:mb-8">
+        <div className="rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 text-center text-white mb-6 sm:mb-8" style={{backgroundColor: '#19C472'}}>
           <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4">Ready to Get Started?</h3>
           <p className="text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 opacity-90 px-2">
             Click the chat button to start a conversation with our AI support assistant!
           </p>
           <button
             onClick={() => setIsChatOpen(true)}
-            className="bg-white text-indigo-600 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 text-sm sm:text-base"
+            className="bg-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 text-sm sm:text-base"
+            style={{color: '#19C472'}}
           >
             <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             Start Chat
@@ -149,16 +150,16 @@ function App() {
 
         {/* Quick Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-center">
-          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
-            <div className="text-2xl sm:text-3xl font-bold text-indigo-600 mb-2">7 Days</div>
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
+            <div className="text-2xl sm:text-3xl font-bold mb-2" style={{color: '#19C472'}}>7 Days</div>
             <div className="text-gray-600 text-sm sm:text-base">Free Trial</div>
           </div>
-          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
-            <div className="text-2xl sm:text-3xl font-bold text-green-600 mb-2">₹3,000</div>
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100">
+            <div className="text-2xl sm:text-3xl font-bold mb-2" style={{color: '#19C472'}}>₹3,000</div>
             <div className="text-gray-600 text-sm sm:text-base">Yearly Plan</div>
           </div>
-          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg sm:col-span-2 lg:col-span-1">
-            <div className="text-2xl sm:text-3xl font-bold text-purple-600 mb-2">6-16</div>
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100 sm:col-span-2 lg:col-span-1">
+            <div className="text-2xl sm:text-3xl font-bold mb-2" style={{color: '#19C472'}}>6-16</div>
             <div className="text-gray-600 text-sm sm:text-base">Age Range</div>
           </div>
         </div>
