@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message } from '../types';
-import { Bot, User, Volume2 } from 'lucide-react';
+import { Bot, User, Volume2, Square, Play } from 'lucide-react';
 
 interface ChatMessageProps {
   message: Message;
@@ -38,13 +38,33 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           <div className="whitespace-pre-wrap text-sm sm:text-base">{message.content}</div>
           
           {!isUser && onPlayAudio && (
-            <button
-              onClick={() => isPlaying ? onStopAudio?.() : onPlayAudio(message.content)}
-              className="mt-2 flex items-center gap-1 text-xs opacity-70 hover:opacity-100 transition-opacity"
-            >
-              <Volume2 className={`w-3 h-3 ${isPlaying ? 'animate-pulse' : ''}`} />
-              {isPlaying ? 'Stop audio' : 'Play audio'}
-            </button>
+            <div className="mt-2 flex items-center gap-2 flex-wrap">
+              {isPlaying ? (
+                <button
+                  onClick={onStopAudio}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg transition-all hover:scale-105 text-white"
+                  style={{backgroundColor: '#ff4444'}}
+                >
+                  <Square className="w-3 h-3" />
+                  Stop
+                </button>
+              ) : (
+                <button
+                  onClick={() => onPlayAudio(message.content)}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg transition-all hover:scale-105 text-white"
+                  style={{backgroundColor: '#19C472'}}
+                >
+                  <Play className="w-3 h-3" />
+                  Play Again
+                </button>
+              )}
+              {isPlaying && (
+                <div className="flex items-center gap-1 text-xs opacity-70">
+                  <Volume2 className="w-3 h-3 animate-pulse" />
+                  <span>Speaking...</span>
+                </div>
+              )}
+            </div>
           )}
         </div>
         

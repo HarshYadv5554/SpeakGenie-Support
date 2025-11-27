@@ -9,9 +9,15 @@ export class TextToSpeechService {
     return new Promise((resolve, reject) => {
       // Stop any current speech
       this.stop();
-
+      
       // Clean text for speech - remove emojis and symbols
       const cleanText = this.cleanTextForSpeech(text);
+      
+      // If text is empty after cleaning, resolve immediately
+      if (!cleanText.trim()) {
+        resolve();
+        return;
+      }
       
       const utterance = new SpeechSynthesisUtterance(cleanText);
 
@@ -27,20 +33,42 @@ export class TextToSpeechService {
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
 
+      let resolved = false;
+      
       utterance.onend = () => {
-        resolve();
+        if (!resolved) {
+          resolved = true;
+          resolve();
+        }
       };
 
       utterance.onerror = (event) => {
-        reject(new Error(`Speech synthesis error: ${event.error}`));
+        if (!resolved) {
+          resolved = true;
+          // Don't reject on certain errors that might be recoverable
+          if (event.error === 'interrupted' || event.error === 'canceled') {
+            resolve();
+          } else {
+            reject(new Error(`Speech synthesis error: ${event.error}`));
+          }
+        }
       };
 
-      this.synthesis.speak(utterance);
+      // Small delay to ensure previous speech is fully cancelled
+      // This helps when audio was manually stopped
+      setTimeout(() => {
+        // Double-check synthesis is ready
+        if (this.synthesis.speaking || this.synthesis.pending) {
+          this.synthesis.cancel();
+        }
+        
+        this.synthesis.speak(utterance);
+      }, 10);
     });
   }
 
   stop(): void {
-    if (this.synthesis.speaking) {
+    if (this.synthesis.speaking || this.synthesis.pending) {
       this.synthesis.cancel();
     }
   }

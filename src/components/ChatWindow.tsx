@@ -23,6 +23,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   const { messages, isLoading, isTyping, sendMessage, escalateToHuman, ttsService } = useChat(userProfile);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
+  const [isTtsPlaying, setIsTtsPlaying] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,20 +33,46 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
     scrollToBottom();
   }, [messages, isTyping]);
 
+  // Check if TTS is currently speaking and track which message is playing
+  useEffect(() => {
+    const checkTtsStatus = () => {
+      const speaking = ttsService.isSpeaking();
+      setIsTtsPlaying(speaking);
+      
+      // If TTS is playing but no message is marked as playing, 
+      // it means it's auto-playing the last assistant message
+      if (speaking && !playingMessageId) {
+        const lastAssistantMessage = [...messages].reverse().find(m => m.sender === 'assistant');
+        if (lastAssistantMessage) {
+          setPlayingMessageId(lastAssistantMessage.id);
+        }
+      } else if (!speaking && playingMessageId) {
+        // If TTS stopped, clear the playing message ID
+        setPlayingMessageId(null);
+      }
+    };
+    
+    const interval = setInterval(checkTtsStatus, 100);
+    return () => clearInterval(interval);
+  }, [ttsService, messages, playingMessageId]);
+
   const handlePlayAudio = async (text: string, messageId: string) => {
     try {
       setPlayingMessageId(messageId);
+      setIsTtsPlaying(true);
       await ttsService.speak(text, userProfile.preferences.accent, userProfile.preferences.language);
     } catch (error) {
       console.error('Text-to-speech error:', error);
     } finally {
       setPlayingMessageId(null);
+      setIsTtsPlaying(false);
     }
   };
 
   const handleStopAudio = () => {
     ttsService.stop();
     setPlayingMessageId(null);
+    setIsTtsPlaying(false);
   };
 
   if (!isOpen) {

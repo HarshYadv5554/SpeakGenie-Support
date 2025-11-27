@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
+import { Mic, MicOff } from 'lucide-react';
 import { SpeechRecognitionService } from '../services/speechRecognition';
 
 interface VoiceControlsProps {
@@ -15,6 +15,7 @@ export const VoiceControls: React.FC<VoiceControlsProps> = ({
   onToggleVoice,
   isListening = false
 }) => {
+  // voiceEnabled and onToggleVoice kept for interface compatibility but not used
   const [isRecording, setIsRecording] = useState(false);
   const speechService = new SpeechRecognitionService();
 
@@ -45,35 +46,30 @@ export const VoiceControls: React.FC<VoiceControlsProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-1 sm:gap-2">
-      <button
-        onClick={onToggleVoice}
-        className="p-1.5 sm:p-2 rounded-full transition-colors hover:bg-opacity-80"
-        style={{
-          backgroundColor: '#f4f4f4',
-          color: '#444'
-        }}
-        title={voiceEnabled ? 'Voice responses enabled' : 'Voice responses disabled'}
-      >
-        {voiceEnabled ? <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" /> : <VolumeX className="w-3 h-3 sm:w-4 sm:h-4" />}
-      </button>
-
-      <button
-        onClick={handleVoiceInput}
-        disabled={!speechService.isSupported()}
-        className={`p-1.5 sm:p-2 rounded-full transition-all duration-200 ${
-          isRecording
-            ? 'animate-pulse'
-            : 'hover:scale-105'
-        } disabled:opacity-50 disabled:cursor-not-allowed`}
-        style={{
-          backgroundColor: isRecording ? '#ff4444' : '#f4f4f4',
-          color: isRecording ? 'white' : '#444'
-        }}
-        title={isRecording ? 'Stop recording' : 'Start voice input'}
-      >
-        {isRecording ? <MicOff className="w-3 h-3 sm:w-4 sm:h-4" /> : <Mic className="w-3 h-3 sm:w-4 sm:h-4" />}
-      </button>
-    </div>
+    <button
+      onClick={handleVoiceInput}
+      disabled={!speechService.isSupported()}
+      className={`flex-1 flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-200 ${
+        isRecording
+          ? 'animate-pulse'
+          : 'hover:scale-[1.02]'
+      } disabled:opacity-50 disabled:cursor-not-allowed text-white`}
+      style={{
+        backgroundColor: isRecording ? '#ff4444' : '#19C472'
+      }}
+      title={isRecording ? 'Stop recording' : 'Tap to speak'}
+    >
+      {isRecording ? (
+        <>
+          <MicOff className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-sm sm:text-base">Stop Recording</span>
+        </>
+      ) : (
+        <>
+          <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-sm sm:text-base">Tap to Speak</span>
+        </>
+      )}
+    </button>
   );
 };

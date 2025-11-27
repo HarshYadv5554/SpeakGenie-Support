@@ -40,39 +40,20 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
   return (
     <div className="border-t bg-white p-3 sm:p-4">
-      <form onSubmit={handleSubmit} className="flex items-end gap-2 sm:gap-3">
-        <div className="flex-1">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Type your message here..."
-            disabled={disabled}
-            rows={1}
-            className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ minHeight: '40px', maxHeight: '120px' }}
-          />
-        </div>
-
-        <div className="flex items-center gap-1 sm:gap-2">
-          <VoiceControls
-            onVoiceMessage={handleVoiceMessage}
-            voiceEnabled={voiceEnabled}
-            onToggleVoice={onToggleVoice}
-          />
-
-          <button
-            type="button"
-            onClick={onEscalate}
-            className="p-1.5 sm:p-2 rounded-lg transition-colors hover:bg-opacity-80"
-            style={{
-              backgroundColor: '#f4f4f4',
-              color: '#444'
-            }}
-            title="Escalate to human support"
-          >
-            <LifeBuoy className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:gap-3">
+        <div className="flex items-end gap-2 sm:gap-3">
+          <div className="flex-1">
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message here..."
+              disabled={disabled}
+              rows={1}
+              className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ minHeight: '40px', maxHeight: '120px' }}
+            />
+          </div>
 
           <button
             type="submit"
@@ -81,6 +62,26 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             style={{backgroundColor: '#19C472'}}
           >
             <Send className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+        </div>
+        
+        {/* Tap to Speak and Human Escalation Buttons */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <VoiceControls
+            onVoiceMessage={handleVoiceMessage}
+            voiceEnabled={voiceEnabled}
+            onToggleVoice={onToggleVoice}
+          />
+          
+          <button
+            type="button"
+            onClick={onEscalate}
+            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02] text-white"
+            style={{backgroundColor: '#19C472'}}
+            title="Escalate to human support"
+          >
+            <LifeBuoy className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-sm sm:text-base">Human Support</span>
           </button>
         </div>
       </form>
