@@ -79,7 +79,7 @@ export const useChat = (userProfile: UserProfile) => {
     setMessages([]);
   }, []);
 
-  const escalateToHuman = useCallback(() => {
+  const escalateToHuman = useCallback(async () => {
     const getLocalizedEscalationMessage = (language: string): string => {
       switch (language) {
         case 'hindi':
@@ -125,13 +125,25 @@ export const useChat = (userProfile: UserProfile) => {
 
     setMessages(prev => [...prev, escalationMessage]);
     
+    if (userProfile.preferences.voiceEnabled) {
+      try {
+        await ttsService.speak(
+          localizedContent,
+          userProfile.preferences.accent,
+          userProfile.preferences.language
+        );
+      } catch (error) {
+        console.warn('Text-to-speech failed for escalation message:', error);
+      }
+    }
+
     // Log escalation (in a real app, this would send to your backend)
     console.log('Chat escalated to human support:', {
       userId: userProfile.id,
       messages: messages.slice(-5), // Last 5 messages for context
       timestamp: new Date()
     });
-  }, [messages, userProfile]);
+  }, [messages, userProfile, ttsService]);
 
   return {
     messages,
