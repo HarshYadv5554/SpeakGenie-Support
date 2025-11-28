@@ -5,25 +5,11 @@ const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export class OpenAIService {
   private async makeRequest(messages: any[]) {
-    // In production, call our backend API route so the real key stays on the server
-    if (import.meta.env.PROD) {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ messages })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Backend OpenAI API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      return data.content as string;
+    if (!OPENAI_API_KEY) {
+      console.error('VITE_OPENAI_API_KEY is not defined. Make sure it is set in your environment (including on Vercel).');
+      throw new Error('VITE_OPENAI_API_KEY is missing');
     }
 
-    // In development, call OpenAI directly using the VITE_ key
     const response = await fetch(OPENAI_API_URL, {
       method: 'POST',
       headers: {
