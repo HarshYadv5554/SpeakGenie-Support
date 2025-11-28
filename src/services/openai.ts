@@ -2,11 +2,36 @@ import { Message, UserProfile } from '../types';
 
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://speakgenie-support-api.onrender.com';
+
+// Use backend API in production, direct API in development
+const isProduction = import.meta.env.PROD;
+const useBackendAPI = isProduction || import.meta.env.VITE_USE_BACKEND_API === 'true';
 
 export class OpenAIService {
   private async makeRequest(messages: any[]) {
+    // If using backend API, call our server endpoint
+    if (useBackendAPI) {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messages }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: response.statusText }));
+        throw new Error(`API error: ${errorData.error || response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.content;
+    }
+
+    // Otherwise, use direct OpenAI API (for local development)
     if (!OPENAI_API_KEY) {
-      console.error('VITE_OPENAI_API_KEY is not defined. Make sure it is set in your environment (including on Vercel).');
+      console.error('VITE_OPENAI_API_KEY is not defined. Make sure it is set in your environment.');
       throw new Error('VITE_OPENAI_API_KEY is missing');
     }
 
